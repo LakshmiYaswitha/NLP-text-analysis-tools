@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NLP Text Analysis Tools</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark</button>
+    <h1>NLP Text Analysis Tools</h1>
+    <p class="subtitle">Essential Natural Language Processing utilities</p>
+</header>
+
+<form method="POST" id="mainForm" enctype="multipart/form-data">
+
+<div class="textarea-wrapper">
+    <textarea id="textInput"
+        name="text"
+        placeholder="Enter text here or upload a PDF / Word file...">{{ text }}</textarea>
+
+    <!-- Upload icon -->
+    <label class="upload-icon" title="Upload PDF or Word">
+        Upload PDF or word📎
+        <input type="file"
+               id="fileInput"
+               name="file"
+               accept=".pdf,.docx"
+               hidden>
+    </label>
+</div>
+
+<!-- Upload status (LIVE feedback) -->
+<p id="uploadStatus" class="file-name"></p>
+
+<input type="hidden" name="operation" id="operationInput">
+</form>
+
+
+
+<section class="dashboard">
+    {% for tool,label in [
+        ("tokenize","Tokenization"),
+        ("stem","Stemming"),
+        ("lemmatize","Lemmatization"),
+        ("pos","POS Tagging"),
+        ("bow","Bag of Words"),
+        ("tfidf","TF-IDF")
+    ] %}
+    <div class="tool-card" onclick="selectTool('{{ tool }}')">
+        <h3>{{ label }}</h3>
+        <p>{{ label }} operation</p>
+    </div>
+    {% endfor %}
+</section>
+
+{% if output %}
+<div class="result-box" id="resultBox">
+    <div class="result-header">
+    <h2>Operation: {{ output.operation }}</h2>
+    <a href="/export" class="export-btn">⬇ Download as Word</a>
+</div>
+
+<h2>Operation: {{ output.operation }}</h2>
+
+{% if output.tokens %}
+<h3>Tokens</h3>
+<pre>{{ output.tokens }}</pre>
+{% endif %}
+
+{% if output.stems %}
+<h3>Stemming</h3>
+<pre>{{ output.stems }}</pre>
+{% endif %}
+
+{% if output.lemmatized %}
+<h3>Lemmatization</h3>
+<pre>{{ output.lemmatized }}</pre>
+{% endif %}
+
+{% if output.pos_tags %}
+<h3>POS Tags</h3>
+<pre>
+{% for w, t in output.pos_tags %}
+{{ w }} → {{ t }}
+{% endfor %}
+</pre>
+{% endif %}
+
+{% if output.vocabulary %}
+<h3>Document–Term Matrix</h3>
+<a href="/export" class="export-btn">⬇ Download as Word</a>
+
+<div class="table-wrapper">
+<table>
+<tr>
+<th>Document</th>
+{% for w in output.vocabulary %}<th>{{ w }}</th>{% endfor %}
+</tr>
+
+{% for row in output.matrix %}
+<tr>
+<td>Doc {{ loop.index }}</td>
+{% for v in row %}
+<td>{{ "%.3f"|format(v) }}</td>
+{% endfor %}
+</tr>
+{% endfor %}
+</table>
+</div>
+{% endif %}
+
+</div>
+{% endif %}
+
+<script>
+window.onload = () => {
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark");
+        document.querySelector(".theme-toggle").innerText = "☀ Light";
+    }
+};
+
+function toggleTheme() {
+    document.body.classList.toggle("dark");
+    const isDark = document.body.classList.contains("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+    document.querySelector(".theme-toggle").innerText = isDark ? "☀ Light" : "🌙 Dark";
+}
+
+function selectTool(tool) {
+    document.getElementById("operationInput").value = tool;
+    document.getElementById("mainForm").submit();
+}
+
+document.querySelector("textarea").addEventListener("input", clearResult);
+document.querySelector('input[type="file"]').addEventListener("change", clearResult);
+
+function clearResult() {
+    const res = document.getElementById("resultBox");
+    if (res) res.remove();
+}
+</script>
+<script>
+const fileInput = document.getElementById("fileInput");
+const status = document.getElementById("uploadStatus");
+
+fileInput.addEventListener("change", () => {
+    if (fileInput.files.length > 0) {
+        status.innerText = "📄 Uploaded: " + fileInput.files[0].name;
+    } else {
+        status.innerText = "";
+    }
+});
+</script>
+
+
+</body>
+</html>
