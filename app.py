@@ -8,9 +8,23 @@ from docx import Document
 from PyPDF2 import PdfReader
 import io
 
-# Downloads
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
+import os
+import nltk
+
+# ---------------- NLTK SETUP FOR RENDER ----------------
+
+# Set a writable NLTK data directory (Render-safe)
+NLTK_DIR = "/opt/render/nltk_data"
+os.makedirs(NLTK_DIR, exist_ok=True)
+
+# Tell NLTK where to look for data
+nltk.data.path.append(NLTK_DIR)
+
+# Download required NLTK resources (only if not present)
+nltk.download("punkt", download_dir=NLTK_DIR)
+nltk.download("punkt_tab", download_dir=NLTK_DIR)
+nltk.download("averaged_perceptron_tagger", download_dir=NLTK_DIR)
+
 
 app = Flask(__name__)
 stemmer = PorterStemmer()
