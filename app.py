@@ -9,7 +9,7 @@ from PyPDF2 import PdfReader
 import io
 
 import os
-import nltk
+
 
 # ---------------- NLTK SETUP FOR RENDER ----------------
 

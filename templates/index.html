@@ -57,62 +57,64 @@
 
 {% if output %}
 <div class="result-box" id="resultBox">
+
     <div class="result-header">
-    <h2>Operation: {{ output.operation }}</h2>
-    <a href="/export" class="export-btn">⬇ Download as Word</a>
-</div>
+        <h2>Operation: {{ output.operation }}</h2>
+        <a href="/export" class="export-btn">⬇ Download as Word</a>
+    </div>
 
-<h2>Operation: {{ output.operation }}</h2>
+    {% if output.tokens %}
+    <h3>Tokens</h3>
+    <pre>{{ output.tokens }}</pre>
+    {% endif %}
 
-{% if output.tokens %}
-<h3>Tokens</h3>
-<pre>{{ output.tokens }}</pre>
-{% endif %}
+    {% if output.stems %}
+    <h3>Stemming</h3>
+    <pre>{{ output.stems }}</pre>
+    {% endif %}
 
-{% if output.stems %}
-<h3>Stemming</h3>
-<pre>{{ output.stems }}</pre>
-{% endif %}
+    {% if output.lemmatized %}
+    <h3>Lemmatization</h3>
+    <pre>{{ output.lemmatized }}</pre>
+    {% endif %}
 
-{% if output.lemmatized %}
-<h3>Lemmatization</h3>
-<pre>{{ output.lemmatized }}</pre>
-{% endif %}
-
-{% if output.pos_tags %}
-<h3>POS Tags</h3>
-<pre>
+    {% if output.pos_tags %}
+    <h3>POS Tags</h3>
+    <pre>
 {% for w, t in output.pos_tags %}
 {{ w }} → {{ t }}
 {% endfor %}
-</pre>
-{% endif %}
+    </pre>
+    {% endif %}
 
-{% if output.vocabulary %}
-<h3>Document–Term Matrix</h3>
-<a href="/export" class="export-btn">⬇ Download as Word</a>
+    {% if output.vocabulary %}
+    <h3>Document–Term Matrix</h3>
 
-<div class="table-wrapper">
-<table>
-<tr>
-<th>Document</th>
-{% for w in output.vocabulary %}<th>{{ w }}</th>{% endfor %}
-</tr>
+    <div class="table-wrapper">
+        <table>
+            <tr>
+                <th>Document</th>
+                {% for w in output.vocabulary %}
+                <th>{{ w }}</th>
+                {% endfor %}
+            </tr>
 
-{% for row in output.matrix %}
-<tr>
-<td>Doc {{ loop.index }}</td>
-{% for v in row %}
-<td>{{ "%.3f"|format(v) }}</td>
-{% endfor %}
-</tr>
-{% endfor %}
-</table>
+            {% for row in output.matrix %}
+            <tr>
+                <td>Doc {{ loop.index }}</td>
+                {% for v in row %}
+                <td>{{ "%.3f"|format(v) }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+
 </div>
 {% endif %}
 
-</div>
-{% endif %}
+
 
 <script>
 window.onload = () => {
