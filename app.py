@@ -8,6 +8,8 @@ from docx import Document
 from PyPDF2 import PdfReader
 import io
 import os
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import wordnet
 NLTK_DIR = "/opt/render/nltk_data"
 os.makedirs(NLTK_DIR, exist_ok=True)
 nltk.data.path.append(NLTK_DIR)
@@ -37,6 +39,17 @@ POS_MAP = {
     "DT": "Determiner",
     "PRP": "Pronoun"
 }
+def get_wordnet_pos(tag):
+    if tag.startswith('J'):
+        return wordnet.ADJ
+    elif tag.startswith('V'):
+        return wordnet.VERB
+    elif tag.startswith('N'):
+        return wordnet.NOUN
+    elif tag.startswith('R'):
+        return wordnet.ADV
+    return wordnet.NOUN
+
 def extract_text(file):
     if file.filename.endswith(".pdf"):
         reader = PdfReader(file)
@@ -85,7 +98,10 @@ def index():
 
         
         elif operation == "lemmatize":
-            lemmas = [stemmer.stem(w) for w in tokens]
+            lemmatizer = WordNetLemmatizer()
+            tagged = pos_tag(tokens)
+            lemmas = [lemmatizer.lemmatize(word, get_wordnet_pos(tag))
+                      for word, tag in tagged]
             output = {
                 "operation": "Lemmatization",
                 "lemmatized": lemmas
