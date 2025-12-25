@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Source+Sans+3:wght@400;500;600&display=swap');
 
-/* ================= GLOBAL ================= */
 body {
     margin: 0;
     padding: 8px 64px;
@@ -10,31 +9,24 @@ body {
     font-size: 16px;
     line-height: 1.55;
 }
-
-/* ================= HEADER ================= */
 header {
     text-align: center;
     margin-bottom: 8px;
 }
-
 header h1 {
     font-family: "Abril Fatface", serif;
     font-size: 40px;
     font-weight: 400;
     margin: 0;
 }
-
 .subtitle {
     font-size: 15px;
     color: #666;
     margin: 2px 0 8px 0;
 }
-
-/* ================= TEXTAREA ================= */
 .textarea-wrapper {
     position: relative;
 }
-
 textarea {
     width: 100%;
     height: 150px;
@@ -47,17 +39,13 @@ textarea {
     outline: none;
     margin-bottom: 6px;
 }
-
 textarea::placeholder {
     color: #8a8a8a;
 }
-
 textarea:focus {
     border-color: #aabdb7;
     box-shadow: 0 0 0 3px rgba(170,189,183,0.25);
 }
-
-/* Upload icon */
 .upload-icon {
     position: absolute;
     top: 6px;
@@ -71,33 +59,25 @@ textarea:focus {
     border-radius: 10px;
     padding: 0.1px 0.1px;
 }
-
 .upload-icon:hover {
     opacity: 1;
 }
-
 body.dark .upload-icon {
     background: rgba(32, 32, 32, 0.9);
     border-color: #6fa89c;
     color: #cfd8dc;
 }
-
-
 .file-name {
     font-size: 14px;
     color: #6fa89c;
     margin-bottom: 6px;
 }
-
-/* ================= DASHBOARD ================= */
 .dashboard {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
     gap: 12px;
     margin-bottom: 10px;
 }
-
-/* ================= TOOL BUTTONS ================= */
 .tool-card {
     padding: 10px 12px;
     border-radius: 12px;
@@ -106,39 +86,31 @@ body.dark .upload-icon {
     border: 1.4px solid transparent;
     transition: all 0.2s ease;
 }
-
 .tool-card h3 {
     font-family: "Abril Fatface", serif;
     font-size: 17px;
     font-weight: 400;
     margin: 0 0 4px 0;
 }
-
 .tool-card p {
     font-size: 13px;
     margin: 0;
     color: #333;
 }
-
 .tool-card:hover {
     transform: translateY(-2px);
 }
-
-/* Light mode colors */
 .tool-card:nth-child(1) { background: #eef6f3; border-color: #b9d9cc; }
 .tool-card:nth-child(2) { background: #f2eef9; border-color: #cbbce8; }
 .tool-card:nth-child(3) { background: #eef4fb; border-color: #bfd6f2; }
 .tool-card:nth-child(4) { background: #eef9f6; border-color: #bfe5d8; }
 .tool-card:nth-child(5) { background: #fff6ea; border-color: #f1d2a8; }
 .tool-card:nth-child(6) { background: #fdf1ea; border-color: #f0c2a8; }
-
-/* ================= RESULTS ================= */
 .result-box h2 {
     margin: 10px 0 6px 0;
     font-size: 22px;
     font-weight: 500;
 }
-
 .result-box h3 {
     margin: 8px 0 4px 0;
     font-size: 16px;
@@ -146,44 +118,45 @@ body.dark .upload-icon {
     border-left: 4px solid #cbded6;
     padding-left: 8px;
 }
-
-/* ================= OUTPUT ================= */
 pre {
     background-color: #f7f9f8;
-    padding: 10px;
-    border-radius: 10px;
+    padding: 16px 18px;
+    border-radius: 12px;
     font-size: 15px;
-    margin-bottom: 8px;
+    line-height: 1.7;
+    min-height: 180px;
+    max-height: 320px;
+    overflow-y: auto;
     overflow-x: auto;
+    white-space: pre-wrap;      
+    word-break: break-word;     
+    display: block;
 }
 
-/* ================= TABLE ================= */
 .table-wrapper {
     width: 100%;
+    max-height: 380px;  
+    overflow-y: auto;
     overflow-x: auto;
+    border-radius: 10px;
 }
-
 table {
     min-width: 900px;
     border-collapse: collapse;
-    font-size: 16px; /* increased for readability */
+    font-size: 16px; 
     margin-bottom: 12px;
 }
-
 th {
     background: #eef2f1;
     padding: 10px;
     font-weight: 600;
     border-bottom: 2px solid #d6dedd;
 }
-
 td {
     padding: 12px;
     border-bottom: 1px solid #e3e8e6;
     text-align: center;
 }
-
-/* Bigger sentence/document label */
 .doc-label {
     font-size: 17px;
     font-weight: 600;
@@ -191,12 +164,9 @@ td {
     padding-left: 14px;
     white-space: nowrap;
 }
-
 tr:nth-child(even) {
     background: #f9fbfa;
 }
-
-/* ================= EXPORT BUTTON ================= */
 .export-btn {
     display: inline-block;
     padding: 6px 14px;
@@ -207,8 +177,6 @@ tr:nth-child(even) {
     background: #eef6f3;
     color: #1f1f1f;
 }
-
-/* ================= THEME TOGGLE ================= */
 .theme-toggle {
     position: fixed;
     top: 10px;
@@ -221,114 +189,89 @@ tr:nth-child(even) {
     font-size: 14px;
     z-index: 1000;
 }
-
-/* ================= DARK MODE ================= */
 body.dark {
     background-color: #181818;
     color: #ededed;
 }
-
-/* Header */
 body.dark h1,
 body.dark h2 {
     color: #ffffff;
 }
-
 body.dark .subtitle {
     color: #bdbdbd;
 }
-
-/* Textarea */
 body.dark textarea {
     background-color: #202020;
     color: #f5f5f5;
     border: 2px solid #6fa89c;
 }
-
 body.dark textarea:focus {
     border-color: #8fd3c1;
     box-shadow: 0 0 0 3px rgba(143,211,193,0.25);
 }
-
-/* Tool cards */
 body.dark .tool-card {
     background: linear-gradient(180deg, #242424, #1d1d1d);
     border: 2px solid #333;
     box-shadow: 0 4px 10px rgba(0,0,0,0.4);
 }
-
 body.dark .tool-card h3 {
     color: #ffffff;
 }
-
 body.dark .tool-card p {
     color: #d0d0d0;
 }
-
-/* Accent borders */
 body.dark .tool-card:nth-child(1) { border-color: #7fd1b9; }
 body.dark .tool-card:nth-child(2) { border-color: #b39ddb; }
 body.dark .tool-card:nth-child(3) { border-color: #90caf9; }
 body.dark .tool-card:nth-child(4) { border-color: #81c784; }
 body.dark .tool-card:nth-child(5) { border-color: #ffcc80; }
 body.dark .tool-card:nth-child(6) { border-color: #ffab91; }
-
-/* Output */
 body.dark pre {
-    background: #1f1f1f;
+    background: linear-gradient(180deg, #232323, #1f1f1f);
     border: 2px solid #2f2f2f;
     color: #f1f1f1;
+    min-height: 180px;
+    max-height: 320px;
+    overflow-y: auto;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
 }
-
-/* Table */
 body.dark table {
     border: 2px solid #2f2f2f;
 }
-
 body.dark th {
     background-color: #262626;
     border-bottom: 2px solid #444;
 }
-
 body.dark td {
     background-color: #1f1f1f;
     border-bottom: 1px solid #333;
 }
-
 body.dark tr:nth-child(even) td {
     background-color: #232323;
 }
-
 body.dark .doc-label {
     color: #e0f2f1;
 }
-
-/* Export */
 body.dark .export-btn {
     background: #1f1f1f;
     color: #ffffff;
     border-color: #6fa89c;
 }
-
-/* Upload */
 body.dark .upload-icon {
     color: #cfd8dc;
 }
-
 body.dark .file-name {
     color: #8fd3c1;
 }
-
-/* ================= MOBILE ================= */
 @media (max-width: 900px) {
     body {
         padding: 10px 24px;
     }
-
     textarea {
         height: 130px;
     }
-
     .dashboard {
         grid-template-columns: 1fr;
     }

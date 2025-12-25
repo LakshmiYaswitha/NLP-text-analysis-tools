@@ -7,31 +7,16 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from docx import Document
 from PyPDF2 import PdfReader
 import io
-
 import os
-
-
-# ---------------- NLTK SETUP FOR RENDER ----------------
-
-# Set a writable NLTK data directory (Render-safe)
 NLTK_DIR = "/opt/render/nltk_data"
 os.makedirs(NLTK_DIR, exist_ok=True)
-
-# Tell NLTK where to look for data
 nltk.data.path.append(NLTK_DIR)
-
-# Download required NLTK resources (only if not present)
 nltk.download("punkt", download_dir=NLTK_DIR)
 nltk.download("punkt_tab", download_dir=NLTK_DIR)
 nltk.download("averaged_perceptron_tagger", download_dir=NLTK_DIR)
-
-
 app = Flask(__name__)
 stemmer = PorterStemmer()
-
 LAST_EXPORT = {}
-
-# -------- POS TAG FULL FORMS --------
 POS_MAP = {
     "NN": "Noun (Singular)",
     "NNS": "Noun (Plural)",
@@ -49,8 +34,6 @@ POS_MAP = {
     "DT": "Determiner",
     "PRP": "Pronoun"
 }
-
-# -------- FILE TEXT EXTRACTION --------
 def extract_text(file):
     if file.filename.endswith(".pdf"):
         reader = PdfReader(file)
@@ -61,7 +44,6 @@ def extract_text(file):
         return "\n".join(p.text for p in doc.paragraphs)
 
     return ""
-
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -83,8 +65,6 @@ def index():
             return render_template("index.html", output=None, text="")
 
         tokens = word_tokenize(text.lower())
-
-        # -------- TOKENIZATION --------
         if operation == "tokenize":
             output = {
                 "operation": "Tokenization",
@@ -92,7 +72,6 @@ def index():
             }
             LAST_EXPORT = output
 
-        # -------- STEMMING --------
         elif operation == "stem":
             stems = [stemmer.stem(w) for w in tokens]
             output = {
@@ -101,7 +80,7 @@ def index():
             }
             LAST_EXPORT = output
 
-        # -------- LEMMATIZATION --------
+        
         elif operation == "lemmatize":
             lemmas = [stemmer.stem(w) for w in tokens]
             output = {
@@ -110,7 +89,6 @@ def index():
             }
             LAST_EXPORT = output
 
-        # -------- POS TAGGING --------
         elif operation == "pos":
             tagged = pos_tag(tokens)
             readable = [(w, POS_MAP.get(t, t)) for w, t in tagged]
@@ -120,10 +98,9 @@ def index():
             }
             LAST_EXPORT = output
 
-        # -------- BOW / TF-IDF --------
+        
         elif operation in ["bow", "tfidf"]:
 
-            # Sentence-wise documents
             documents = sent_tokenize(text)
 
             if operation == "bow":
@@ -151,8 +128,6 @@ def index():
 
     return render_template("index.html", output=output, text=text)
 
-
-# -------- WORD EXPORT --------
 @app.route("/export")
 def export_word():
     if not LAST_EXPORT:

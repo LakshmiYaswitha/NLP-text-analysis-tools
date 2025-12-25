@@ -6,21 +6,16 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
 <header>
     <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark</button>
     <h1>NLP Text Analysis Tools</h1>
     <p class="subtitle">Essential Natural Language Processing utilities</p>
 </header>
-
 <form method="POST" id="mainForm" enctype="multipart/form-data">
-
 <div class="textarea-wrapper">
     <textarea id="textInput"
         name="text"
         placeholder="Enter text here or upload a PDF / Word file...">{{ text }}</textarea>
-
-    <!-- Upload icon -->
     <label class="upload-icon" title="Upload PDF or Word">
         Upload PDF or word📎
         <input type="file"
@@ -30,15 +25,9 @@
                hidden>
     </label>
 </div>
-
-<!-- Upload status (LIVE feedback) -->
 <p id="uploadStatus" class="file-name"></p>
-
 <input type="hidden" name="operation" id="operationInput">
 </form>
-
-
-
 <section class="dashboard">
     {% for tool,label in [
         ("tokenize","Tokenization"),
@@ -54,7 +43,6 @@
     </div>
     {% endfor %}
 </section>
-
 {% if output %}
 <div class="result-box" id="resultBox">
 
@@ -62,7 +50,6 @@
         <h2>Operation: {{ output.operation }}</h2>
         <a href="/export" class="export-btn">⬇ Download as Word</a>
     </div>
-
     {% if output.tokens %}
     <h3>Tokens</h3>
     <pre>{{ output.tokens }}</pre>
@@ -113,9 +100,6 @@
 
 </div>
 {% endif %}
-
-
-
 <script>
 window.onload = () => {
     if (localStorage.getItem("theme") === "dark") {
@@ -156,7 +140,5 @@ fileInput.addEventListener("change", () => {
     }
 });
 </script>
-
-
 </body>
 </html>
